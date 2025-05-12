@@ -18,7 +18,7 @@
    - `01_inputs`: 프로그램 및 웹 앱이 사용하는 입력 파일
    - `02_outputs`: 프로그램 및 웹 앱에 의해 생성되는 산출물 및 기타 출력 파일
    - `03_resources`: 앱 내에서 사용될 정적 자원 (이미지 리소스 등)
-   - `src`: 프로젝트 소스코드 저장
+   - `src`: 프로젝트 소스코드 관리 디렉토리 (html, css, js, ts 등)
 
 ### 1.3. Running Environment
 
@@ -29,7 +29,13 @@
 
 ### 1.4. Programs
 
-1. /programs/extract_tocraw_from_pdf.py
+1. /programs/`extract_tocraw_from_pdf.py`: PDF 파일(public\01_inputs\itscope_pmo_manual.pdf)을 읽어, `tocraw`를 추출하는 Python 프로그램
+   - input: public/01_inputs/itscope_pmo_manual.pdf
+   - output: public/02_outputs/manual_toc_raw.md
+
+2. /programs/`generate_menu_json_from_tocraw.py`: 
+
+3. /programs/`generate_menu_md_from_tocraw.py`
 
 ## 2. Functional Requirements
 
