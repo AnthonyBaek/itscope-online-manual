@@ -15,9 +15,9 @@
 
 3. **Python 패키지 설치**
    - 매뉴얼을 사용만 하는 목적일 경우 설치하실 필요 없습니다.
-   ```bash
-   pip install pdfplumber
-   ```
+      ```bash
+      pip install pdfplumber
+      ```
 
 4. **로컬 웹서버 실행**
    ```bash
