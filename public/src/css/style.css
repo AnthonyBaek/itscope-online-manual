@@ -447,4 +447,78 @@ html, body {
 
 .markdown-body a:hover {
     text-decoration: underline;
+}
+
+#content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1.5em;
+}
+
+#content th,
+#content td {
+    padding: 2px;
+    text-align: left;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+    border-left: none;
+    border-right: none;
+}
+
+#content th {
+    border-bottom: 2.5px solid #222;
+    background: #fff;
+    font-weight: bold;
+}
+
+#content tr:nth-child(even) {
+    background: #fafafa;
+}
+
+#content tr:nth-child(odd) {
+    background: #fff;
+}
+
+/* 이미지 캡션 스타일 추가 */
+#content img + em {
+    display: block;
+    color: #666;
+    font-size: 0.9em;
+    text-align: center;
+    margin: -12px 0 24px 0;
+    font-style: normal;
+}
+
+/* figure와 figcaption 스타일 */
+#content figure {
+    margin: 24px 0;
+    text-align: center;
+}
+
+#content figure img {
+    margin: 0;
+}
+
+#content figcaption {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* 로고 이미지 스타일 */
+#content .logo-figure {
+    margin: 24px 0;
+    text-align: left;
+}
+
+#content .logo-image {
+    width: 200px;  /* 원하는 크기로 조정 가능 */
+    height: auto;
+    border: none;
+    cursor: default;
+}
+
+#content .logo-image:hover {
+    box-shadow: none;
 } 

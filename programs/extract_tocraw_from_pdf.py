@@ -2,8 +2,9 @@ import re
 import pdfplumber
 import os
 
-PDF_PATH = "public/base_files/itscope_pmo_manual.pdf"
-OUTPUT_PATH = "public/manual_toc_raw.md"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PDF_PATH = os.path.join(BASE_DIR, '..', 'public', '01_inputs', 'itscope_manual_pdf.pdf')
+OUTPUT_PATH = os.path.join(BASE_DIR, '..', 'public', '02_outputs', 'manual_toc_raw.md')
 
 # 목차 패턴: 1. / 1.1. / 1.1.1. ...
 TOC_PATTERN = re.compile(r"^(\d+(?:\.\d+)*\.)\s+(.+)$")

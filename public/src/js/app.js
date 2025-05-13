@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
         document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
         loadContent('00_main.md');
+        // 해시까지 완전히 제거
+        location.hash = '';
+        window.history.pushState(null, '', '/src/');
     });
     // 첫 진입 시 00_main.md 자동 로드
     loadContent('00_main.md');
@@ -103,6 +106,42 @@ function renderMenuTree(data, parentElement = document.getElementById('menuTree'
         const menuItem = createMenuItem(item);
         parentElement.appendChild(menuItem);
     });
+
+    // URL 해시가 있으면 해당 메뉴의 경로를 찾아서 펼치기
+    const hash = location.hash.slice(1); // '#' 제거
+    if (hash) {
+        expandMenuPath(hash);
+    }
+}
+
+// 메뉴 경로 찾아서 펼치기
+function expandMenuPath(targetFile) {
+    function findAndExpandPath(items, targetFile, path = []) {
+        for (const item of items) {
+            const currentPath = [...path, item];
+            
+            if (item.file === targetFile) {
+                // 찾은 경로의 모든 부모 메뉴 펼치기
+                currentPath.forEach(node => {
+                    const menuItem = document.querySelector(`[data-file="${node.file}"]`);
+                    if (menuItem) {
+                        menuItem.classList.add('expanded');
+                        menuItem.classList.add('active');
+                    }
+                });
+                return true;
+            }
+            
+            if (item.children && item.children.length > 0) {
+                if (findAndExpandPath(item.children, targetFile, currentPath)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    findAndExpandPath(menuData, targetFile);
 }
 
 // 메뉴 아이템 생성
@@ -113,6 +152,7 @@ function createMenuItem(item, level = 1) {
 
     const div = document.createElement('div');
     div.className = `menu-item level-${level}`;
+    div.setAttribute('data-file', item.file); // 파일명을 data 속성으로 추가
 
     // 메뉴 제목 컨테이너
     const titleContainer = document.createElement('div');
@@ -172,14 +212,22 @@ function createMenuItem(item, level = 1) {
 async function loadContent(file) {
     try {
         const response = await fetch(`/02_outputs/manual_md/${file}?t=${Date.now()}`);
-        const content = await response.text();
+        let content = await response.text();
+        
+        // 로고 이미지 처리
+        content = content.replace(/!\[\]\(\/03_resources\/solution_link_logo_2505\.png\)/g, 
+            '<figure class="logo-figure"><img src="/03_resources/solution_link_logo_2505.png" alt="Solution Link Logo" class="logo-image"></figure>');
+        
+        // 일반 이미지 마크다운을 figure 태그로 변환
+        content = content.replace(/!\[(.*?)\]\((.*?)\)/g, '<figure><img src="$2" alt="$1" class="screenshot"><figcaption>$1</figcaption></figure>');
+        
         // 마크다운을 HTML로 변환
         const htmlContent = marked.parse(content);
         // 컨텐츠 영역 업데이트
         document.getElementById('content').innerHTML = htmlContent;
-        // 모든 #content img에 .screenshot 클래스 자동 부여
+        
+        // 모든 이미지에 클릭 이벤트 추가
         document.querySelectorAll('#content img').forEach(img => {
-            img.classList.add('screenshot');
             img.addEventListener('click', function() {
                 showScreenshotModal(img.src);
             });

@@ -1,8 +1,8 @@
 import os
 import re
 import sys
-
-MD_DIR = '../public/02_outputs/manual_md'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MD_DIR = os.path.join(BASE_DIR, '..', 'public', '02_outputs', 'manual_md')
 
 # 특수문자 bullet 패턴 정의
 BULLET_PATTERNS = [

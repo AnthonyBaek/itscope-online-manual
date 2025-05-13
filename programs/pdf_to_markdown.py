@@ -1,8 +1,9 @@
 import re
 import os
 
-TXT_PATH = 'itscope_pmo_manual.txt'
-OUTPUT_DIR = 'md_output'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TXT_PATH = os.path.join(BASE_DIR, '..', 'public', '02_outputs', 'itscope_manual_txt.txt')
+OUTPUT_DIR = os.path.join(BASE_DIR, '..', 'public', '02_outputs', 'md_output')
 
 # 목차 패턴: 1. / 1.1. / 1.2.1. / 1.2.1.1. / 1.2.1.1.1. ...
 TOC_PATTERN = re.compile(r'^(\d+(?:\.\d+){0,4})\.\s+(.+)$')

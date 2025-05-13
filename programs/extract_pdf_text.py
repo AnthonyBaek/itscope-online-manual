@@ -1,8 +1,10 @@
 import pdfplumber
 import re
+import os
 
-PDF_PATH = 'public/resource/itscope_pmo_manual.pdf'
-OUTPUT_PATH = 'itscope_pmo_manual.txt'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PDF_PATH = os.path.join(BASE_DIR, '..', 'public', '01_inputs', 'itscope_manual_pdf.pdf')
+OUTPUT_PATH = os.path.join(BASE_DIR, '..', 'public', '02_outputs', 'itscope_manual_txt.txt')
 
 def table_to_markdown(table):
     if not table or not table[0]:

@@ -204,4 +204,35 @@ http://localhost:8000/src/
 
 ## 라이선스
 
-© 2024 ITSCOPE. All rights reserved. 
+© 2024 ITSCOPE. All rights reserved.
+
+## 주요 입력/출력 파일 및 폴더 설명
+
+### public/01_inputs/
+- **itscope_manual_pdf.pdf**  
+  온라인 매뉴얼로 전환하기 위해 입력하는 원본 매뉴얼 PDF 파일입니다.
+- **itscope_why.jpg, itscope_products_comparison.pdf**  
+  매뉴얼 내에서 활용되는 참고 이미지, 비교표 등 입력 리소스입니다.
+
+### public/02_outputs/
+- **manual_toc_raw.md**  
+  PDF에서 추출한 목차(raw) 텍스트 파일입니다. 각 목차 항목이 한 줄씩 기록되어 있으며, 후속 자동화 프로그램의 입력으로 사용됩니다.  
+  → `extract_tocraw_from_pdf.py`에 의해 생성
+- **manual_toc_raw_with_page.md**  
+  PDF에서 추출한 목차와 각 목차 항목이 등장한 페이지 정보를 함께 기록한 파일입니다. 예: `1.3.1. 클라이언트 운영 환경 (p6-p6)`  
+  → `extract_tocraw_with_page.py`에 의해 생성
+- **manual_toc_json.json**  
+  목차(raw) 파일을 트리 구조의 JSON으로 변환한 파일입니다. 웹앱의 메뉴 트리 렌더링, 검색 등에서 사용됩니다.  
+  → `generate_menu_json_from_tocraw.py`에 의해 생성
+- **manual_md/**  
+  각 목차별로 분할된 마크다운 파일들이 저장되는 폴더입니다. 예: `1.1.md`, `2.2.1.1.md` 등. 실제 온라인 매뉴얼의 본문 컨텐츠로 사용됩니다.  
+  → `generate_menu_md_from_tocraw.py`, `pdf_to_markdown.py` 등에 의해 생성
+- **md_output/**  
+  (자동화 파이프라인 중간 산출물) PDF 텍스트를 목차별로 분할한 임시 마크다운 파일들이 저장됩니다.  
+  → `pdf_to_markdown.py`에 의해 생성
+
+### public/03_resources/
+- **logo-white.png, sample_screenshot.png**  
+  웹앱에서 사용하는 로고, 샘플 이미지 등 정적 리소스입니다.
+- **initial_md/**  
+  초기 마크다운 샘플 파일들이 저장된 폴더입니다. manual_md로 컨텐츠를 병합하거나, 샘플로 활용할 수 있습니다. 
