@@ -4,6 +4,7 @@
 
 1. **사전 준비**
    - Python 3.x 설치 (https://www.python.org/downloads/)
+        - Python 설치 시 Add PATH 체크
    - (선택) Git 설치: https://git-scm.com/
 
 2. **프로젝트 코드 다운로드**
