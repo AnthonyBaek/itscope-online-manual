@@ -28,9 +28,82 @@
 
 5. **웹 브라우저에서 접속**
    - http://localhost:8000/src/
+   - **특정 md 파일로 바로 접속하려면 URL 뒤에 #목차번호를 붙이면 됩니다.**
+     - 예시: http://localhost:8000/src/#1.2.1 → 1.2.1.md 파일이 바로 열림
 
 6. (선택) PDF → 마크다운 자동화 프로그램 실행은 하단 "데이터 전처리 및 자동화 프로그램 목록" 참고
    - 본인이 가진 PDF 및 목차/Markdown 파일을 기준으로 매뉴얼을 업데이트하고 싶을 경우 참고
+
+## 매뉴얼 관리 방법
+
+만약 PDF에서 추출한 `manual_toc_raw.md` 파일만 있는 경우(PDF 파일만 있을 경우, programs/extract_tocraw_from_pdf.py 를 실행하여 `manual_toc_raw.md`를 생성할 수 있습니다. (현재 1~4 페이지는 skip하도록 되어있으므로, 전체 문서에 대해 추출을 원할 경우 프로그램 수정이 필요합니다)), 아래 순서대로 자동화 프로그램을 실행하면 전체 온라인 매뉴얼 데이터(트리, md, 이미지 등)를 일괄적으로 생성·관리할 수 있습니다.
+
+1. **목차 트리 JSON 생성**
+   ```bash
+   python generate_menu_json_from_tocraw.py
+   ```
+   - `manual_toc_raw.md` → `manual_toc_json.json` (트리 구조)
+
+2. **목차별 빈 마크다운 파일 생성**
+   ```bash
+   python generate_menu_md_from_tocraw.py
+   ```
+   - `manual_toc_raw.md` → `manual_md/*.md` (각 목차별 H1만 포함된 md 파일)
+
+3. **breadcrumb(트리 경로) 자동 삽입**
+   ```bash
+   python add_breadcrumb_to_md.py
+   ```
+   - 각 md 파일 상단에 breadcrumb 추가
+
+4. **4레벨 md에 5레벨 목차(H2) 자동 삽입**
+   ```bash
+   python add_5th_level_toc_to_4th_md.py
+   ```
+   - 4레벨 md 파일에 5레벨 목차(H2) 구조 자동 생성
+
+5. **PDF에서 텍스트/표 추출 및 마크다운 변환**  
+   (PDF 원본이 있을 경우)
+   ```bash
+   python extract_pdf_text.py
+   ```
+   - PDF → 텍스트/표 추출 및 마크다운 변환
+
+6. **텍스트 파일을 목차별 md로 분할**
+   ```bash
+   python pdf_to_markdown.py
+   ```
+   - 추출된 텍스트를 목차 구조에 따라 md로 분할
+
+7. **마크다운 파일 구조 정리**
+   ```bash
+   python format_md_files.py
+   ```
+   - 리스트, 표, 텍스트, 개행 등 정리
+
+8. **특수문자 bullet(-, ●, ✓ 등) 정리**
+   ```bash
+   python format_bullet_md.py
+   ```
+
+9. **PDF에서 섹션별 이미지 추출**
+   ```bash
+   python extract_images_by_section.py
+   ```
+   - manual_images 폴더에 이미지 저장
+
+10. **이미지 자동 삽입**
+    ```bash
+    python insert_images_to_md.py
+    ```
+    - manual_md/*.md에 이미지 자동 삽입
+
+---
+
+### 💡 참고
+- 위 절차는 **manual_toc_raw.md**만 있으면 전체 매뉴얼 데이터(트리, md, 이미지 등)를 자동으로 생성·관리할 수 있도록 설계되어 있습니다.
+- 각 단계별로 생성되는 파일/폴더는 README의 "주요 입력/출력 파일 및 폴더 설명"을 참고하세요.
+- PDF 원본이 없는 경우, 5~6번 단계는 생략 가능합니다.
 
 ---
 
@@ -52,6 +125,7 @@
   - PDF에서 추출한 마크다운 문서 제공
   - 스크린샷 이미지 팝업 지원
   - 반응형 이미지 처리
+  - 이미지 클릭 시 팝업(모달)로 확대, 단 로고 등은 예외 처리
 
 - **인쇄 기능**
   - 컨텐츠 영역만 선택적 인쇄
@@ -103,6 +177,27 @@
     - 전체 변환: `python format_bullet_md.py`
     - 특정 파일만 변환: `python format_bullet_md.py ../public/02_outputs/manual_md/1.1.md`
 
+- **insert_images_to_md.py**
+  - manual_images 폴더의 이미지를 manual_md 폴더의 md 파일에 섹션 규칙에 맞게 자동 삽입
+  - 5레벨 이미지는 4레벨 md의 N번째 H2(##) 섹션 하단(섹션 내 '그림' 우선), 4레벨 이하는 '그림' 아래, 없으면 파일 하단에 삽입
+  - 캡션이 없으면 "설명 이미지"로 대체
+  - 이미지 경로는 `/02_outputs/manual_images/파일명.png`로 절대경로 사용
+  - 중복 삽입 방지
+  - 사용법: `python insert_images_to_md.py`
+
+- **extract_images_by_section.py**
+  - PDF에서 각 섹션별 이미지를 추출, 회사 로고(왼쪽 하단)는 자동 필터링
+  - 한 페이지에 여러 섹션이 매핑될 때, 실제 이미지를 포함하는 섹션에만 이미지가 저장되도록 leaf 섹션, y좌표, 섹션 범위 등 다양한 로직 적용
+  - 이미지가 1개면 _(1) 없이, 2개 이상이면 _(n) 붙이도록 파일명 규칙 적용
+  - [img]가 붙은 섹션만 이미지 추출 대상으로 삼음
+  - 사용법: `python extract_images_by_section.py`
+
+- **extract_tocraw_with_page.py**
+  - PDF의 목차와 페이지 (목차-페이지 맵핑), 이미지 존재여부([img])를 추출
+  - y좌표 기반으로 섹션별 이미지 매핑, 해시/텍스트 순서 기반 논리적 목차 순서 유지, 이미지 중심 y좌표로 가장 가까운 섹션에만 매핑
+  - 디버깅 로그, 예외처리, PDF 구조에 따른 반복 개선
+  - 사용법: `python extract_tocraw_with_page.py`
+
 ## 실행 예시
 
 ```bash
@@ -134,6 +229,10 @@ python format_md_files.py
 python format_bullet_md.py
 # 또는 특정 파일만 변환
 python format_bullet_md.py ../public/02_outputs/manual_md/1.1.md
+
+# 이미지 추출 및 마크다운 내 자동 삽입
+python extract_images_by_section.py
+python insert_images_to_md.py
 ```
 
 ## 기술 스택
@@ -225,9 +324,12 @@ http://localhost:8000/src/
 - **manual_toc_json.json**  
   목차(raw) 파일을 트리 구조의 JSON으로 변환한 파일입니다. 웹앱의 메뉴 트리 렌더링, 검색 등에서 사용됩니다.  
   → `generate_menu_json_from_tocraw.py`에 의해 생성
+- **manual_images/**  
+  PDF에서 추출된 섹션별 이미지가 저장되는 폴더입니다. 
+  → 파일명 규칙 및 섹션 매핑은 `extract_images_by_section.py`에 의해 자동 관리
 - **manual_md/**  
   각 목차별로 분할된 마크다운 파일들이 저장되는 폴더입니다. 예: `1.1.md`, `2.2.1.1.md` 등. 실제 온라인 매뉴얼의 본문 컨텐츠로 사용됩니다.  
-  → `generate_menu_md_from_tocraw.py`, `pdf_to_markdown.py` 등에 의해 생성
+  → `insert_images_to_md.py`에 의해 이미지가 자동 삽입되며, 캡션/위치/중복 방지 등 규칙이 적용됨
 - **md_output/**  
   (자동화 파이프라인 중간 산출물) PDF 텍스트를 목차별로 분할한 임시 마크다운 파일들이 저장됩니다.  
   → `pdf_to_markdown.py`에 의해 생성
