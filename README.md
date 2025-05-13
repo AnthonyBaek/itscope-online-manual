@@ -4,6 +4,7 @@
 
 1. **사전 준비**
    - Python 3.x 설치 (https://www.python.org/downloads/)
+        - Python 설치 시 Add PATH 체크
    - (선택) Git 설치: https://git-scm.com/
 
 2. **프로젝트 코드 다운로드**
@@ -15,9 +16,9 @@
 
 3. **Python 패키지 설치**
    - 매뉴얼을 사용만 하는 목적일 경우 설치하실 필요 없습니다.
-   ```bash
-   pip install pdfplumber
-   ```
+      ```bash
+      pip install pdfplumber
+      ```
 
 4. **로컬 웹서버 실행**
    ```bash
