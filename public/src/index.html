@@ -3,22 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITSCOPE 온라인 매뉴얼</title>
-  <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fa; color: #222; margin: 0; padding: 0; }
-    .container { max-width: 600px; margin: 80px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 40px 32px; text-align: center; }
-    h1 { color: #0057b8; margin-bottom: 16px; }
-    p { font-size: 1.1em; margin-bottom: 24px; }
-    .footer { margin-top: 40px; color: #888; font-size: 0.95em; }
-  </style>
+  <title>ITSCOPE Manual</title>
+  <link rel="stylesheet" href="/src/css/style.css?v=20240513">
+  <!-- Markdown 렌더링을 위한 marked.js -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>ITSCOPE 온라인 매뉴얼</h1>
-    <p>이 페이지는 GitHub Pages를 통해 배포되는 샘플 index.html입니다.<br>
-    <b>정상적으로 페이지가 보인다면, GitHub Pages 설정이 완료된 것입니다.</b></p>
-    <img src="../03_resources/logo-white.png" alt="ITSCOPE 로고" style="max-width:180px; margin: 24px 0; background:#222; border-radius:8px; padding:8px;">
-    <div class="footer">© 2024 ITSCOPE. All rights reserved.</div>
+  <div class="main-header">
+    <a href="#" id="homeLink" class="main-header-link">
+      <img src="/03_resources/logo-white.png" alt="ITSCOPE 로고" class="main-header-logo">
+      <span class="main-header-title">ITSCOPE™ PMO 사용자 가이드</span>
+    </a>
+    <button id="printBtn" class="main-header-print-btn" aria-label="인쇄">PRINT</button>
   </div>
+  <div class="app-container">
+    <!-- 왼쪽 메뉴 영역 -->
+    <div class="left-menu">
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <input type="text" id="searchInput" placeholder="매뉴얼 검색">
+          <button id="searchBtn" class="search-btn" aria-label="검색">
+            <span class="search-icon">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="2"/><line x1="14.2" y1="14.2" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <button id="clearSearchBtn" class="clear-search-btn" aria-label="검색 지우기" style="display:none;">
+            <span class="clear-search-icon">✕</span>
+          </button>
+        </div>
+      </div>
+      <div id="menuTree" class="menu-tree">
+        <!-- 메뉴 트리가 여기에 동적으로 생성됩니다 -->
+      </div>
+    </div>
+    <div class="resizer" id="resizer"></div>
+    <!-- 컨텐츠 영역 -->
+    <div class="content-area">
+      <div id="content">
+        <!-- 마크다운 컨텐츠가 여기에 렌더링됩니다 -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
 </body>
 </html> 
