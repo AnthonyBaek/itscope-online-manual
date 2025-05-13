@@ -1,5 +1,38 @@
 # ITSCOPE 온라인 매뉴얼
 
+## 간단 실행 방법 (ZIP 다운로드 후 바로 실행)
+
+1. **사전 준비**
+   - Python 3.x 설치 (https://www.python.org/downloads/)
+   - (선택) Git 설치: https://git-scm.com/
+
+2. **프로젝트 코드 다운로드**
+   - [GitHub에서 ZIP 다운로드] → 압축 해제
+   - 또는 Git 사용 시:
+     ```bash
+     git clone [repository-url]
+     ```
+
+3. **Python 패키지 설치**
+   - 매뉴얼을 사용만 하는 목적일 경우 설치하실 필요 없습니다.
+   ```bash
+   pip install pdfplumber
+   ```
+
+4. **로컬 웹서버 실행**
+   ```bash
+   cd public
+   python -m http.server 8000
+   ```
+
+5. **웹 브라우저에서 접속**
+   - http://localhost:8000/src/
+
+6. (선택) PDF → 마크다운 자동화 프로그램 실행은 하단 "데이터 전처리 및 자동화 프로그램 목록" 참고
+   - 본인이 가진 PDF 및 목차/Markdown 파일을 기준으로 매뉴얼을 업데이트하고 싶을 경우 참고
+
+---
+
 이 프로젝트는 ITSCOPE의 PDF 기반 매뉴얼을 웹에서 마크다운 및 메뉴 트리 구조로 제공하는 웹 애플리케이션입니다.
 
 ## 주요 기능
