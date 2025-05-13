@@ -65,8 +65,8 @@
 
 ## 문의 및 지원
 
-- 시스템 관련 문의: pmo@itscope.com
-- 매뉴얼 개선 제안: github issues 활용
+- 시스템 관련 문의 및 개선 제안: ymbaek@sol-link.com
+- GitHub: https://github.com/AnthonyBaek/itscope-online-manual
 - 저작권: Copyright © SolutionLink & ITSCOPE. All rights reserved.
 
 ---
